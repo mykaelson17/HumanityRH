@@ -120,33 +120,43 @@ export default function ExperienceForm({ initialExperiences }: { initialExperien
   };
 
   return (
-    <div className="flex flex-col gap-4">
+    <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
       {/* ADD BUTTON */}
       <div 
         onClick={() => openModal()}
-        className="border-2 border-dashed border-gray-300 rounded-lg p-4 flex justify-between items-center cursor-pointer hover:bg-gray-50 transition-colors"
+        style={{
+          border: "2px dashed var(--border-color)",
+          borderRadius: "var(--border-radius-lg)",
+          padding: "1.5rem",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          cursor: "pointer",
+          backgroundColor: "var(--bg-secondary)",
+          transition: "var(--transition)"
+        }}
       >
-        <span className="font-bold text-gray-700">Adicionar experiência</span>
-        <Plus size={24} className="text-gray-500" />
+        <span style={{ fontWeight: "700", color: "var(--text-secondary)" }}>Adicionar experiência</span>
+        <Plus size={24} color="var(--text-tertiary)" />
       </div>
 
       {/* LIST */}
       {experiences.map((exp) => (
-        <div key={exp.id} className="border rounded-lg bg-white p-6 shadow-sm flex justify-between items-start">
-          <div className="max-w-[75%]">
-            <h3 className="font-bold text-sm tracking-wide uppercase text-gray-900 mb-1">{exp.role}</h3>
-            <p className="text-sm text-gray-600 mb-1">{exp.company}</p>
-            <p className="text-xs font-bold text-gray-800 mb-2">Período</p>
-            <p className="text-xs text-gray-600 mb-4">{formatPeriod(exp.startDate, exp.endDate, exp.isCurrent)}</p>
-            <p className="text-sm text-gray-600 line-clamp-2">
+        <div key={exp.id} className="card" style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+          <div style={{ maxWidth: "75%" }}>
+            <h3 style={{ fontWeight: "700", fontSize: "1rem", letterSpacing: "0.05em", textTransform: "uppercase", color: "var(--text-primary)", marginBottom: "0.25rem" }}>{exp.role}</h3>
+            <p style={{ fontSize: "0.875rem", color: "var(--text-secondary)", marginBottom: "0.5rem" }}>{exp.company}</p>
+            <p style={{ fontSize: "0.75rem", fontWeight: "700", color: "var(--text-primary)", marginBottom: "0.25rem" }}>Período</p>
+            <p style={{ fontSize: "0.75rem", color: "var(--text-secondary)", marginBottom: "1rem" }}>{formatPeriod(exp.startDate, exp.endDate, exp.isCurrent)}</p>
+            <p style={{ fontSize: "0.875rem", color: "var(--text-secondary)" }}>
               {exp.description}
             </p>
           </div>
-          <div className="flex flex-col gap-3">
-            <button onClick={() => openModal(exp)} className="flex items-center gap-2 text-brand font-bold text-sm hover:underline">
+          <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+            <button onClick={() => openModal(exp)} style={{ display: "flex", alignItems: "center", gap: "0.5rem", color: "var(--brand-primary)", fontWeight: "700", fontSize: "0.875rem", background: "none", border: "none", cursor: "pointer" }}>
               <Edit2 size={16} /> Editar
             </button>
-            <button onClick={() => handleDelete(exp.id)} className="flex items-center gap-2 text-brand font-bold text-sm hover:underline">
+            <button onClick={() => handleDelete(exp.id)} style={{ display: "flex", alignItems: "center", gap: "0.5rem", color: "var(--brand-primary)", fontWeight: "700", fontSize: "0.875rem", background: "none", border: "none", cursor: "pointer" }}>
               <Trash2 size={16} /> Excluir
             </button>
           </div>
@@ -155,53 +165,66 @@ export default function ExperienceForm({ initialExperiences }: { initialExperien
 
       {/* MODAL */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-            <div className="p-6">
-              <div className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-bold text-gray-900">{editingExp ? "Editar experiência" : "Adicionar experiência"}</h2>
-                <button onClick={closeModal} className="text-gray-400 hover:text-gray-600">
+        <div style={{
+          position: "fixed", top: 0, left: 0, right: 0, bottom: 0,
+          backgroundColor: "rgba(0,0,0,0.5)",
+          display: "flex", alignItems: "center", justifyContent: "center",
+          zIndex: 50, padding: "1rem"
+        }}>
+          <div style={{
+            backgroundColor: "var(--bg-secondary)",
+            borderRadius: "var(--border-radius-lg)",
+            boxShadow: "var(--shadow-lg)",
+            width: "100%", maxWidth: "600px",
+            maxHeight: "90vh", overflowY: "auto"
+          }}>
+            <div style={{ padding: "1.5rem" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem" }}>
+                <h2 style={{ fontSize: "1.5rem", fontWeight: "700", color: "var(--text-primary)" }}>
+                  {editingExp ? "Editar experiência" : "Adicionar experiência"}
+                </h2>
+                <button onClick={closeModal} style={{ background: "none", border: "none", color: "var(--text-tertiary)", cursor: "pointer" }}>
                   <X size={24} />
                 </button>
               </div>
 
-              <form onSubmit={handleSave} className="flex flex-col gap-5">
-                <div>
-                  <label className="block text-sm text-gray-700 mb-1">Cargo</label>
-                  <input required value={formData.role} onChange={e => setFormData({...formData, role: e.target.value})} className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-brand" />
+              <form onSubmit={handleSave} style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+                <div className="input-group">
+                  <label className="input-label">Cargo</label>
+                  <input required value={formData.role} onChange={e => setFormData({...formData, role: e.target.value})} className="input-field" style={{ width: "100%" }} />
                 </div>
                 
-                <div>
-                  <label className="block text-sm text-gray-700 mb-1">Empresa</label>
-                  <input required value={formData.company} onChange={e => setFormData({...formData, company: e.target.value})} className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-brand" />
+                <div className="input-group">
+                  <label className="input-label">Empresa</label>
+                  <input required value={formData.company} onChange={e => setFormData({...formData, company: e.target.value})} className="input-field" style={{ width: "100%" }} />
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm text-gray-700 mb-1">Data de início</label>
-                    <input type="month" required value={formData.startDate} onChange={e => setFormData({...formData, startDate: e.target.value})} className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-brand" />
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div className="input-group">
+                    <label className="input-label">Data de início</label>
+                    <input type="month" required value={formData.startDate} onChange={e => setFormData({...formData, startDate: e.target.value})} className="input-field" style={{ width: "100%" }} />
                   </div>
-                  <div>
-                    <label className="block text-sm text-gray-700 mb-1">Data de fim</label>
-                    <input type="month" disabled={formData.isCurrent} required={!formData.isCurrent} value={formData.isCurrent ? "" : formData.endDate} onChange={e => setFormData({...formData, endDate: e.target.value})} className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-brand ${formData.isCurrent ? "bg-gray-100 cursor-not-allowed" : ""}`} />
+                  <div className="input-group">
+                    <label className="input-label">Data de fim</label>
+                    <input type="month" disabled={formData.isCurrent} required={!formData.isCurrent} value={formData.isCurrent ? "" : formData.endDate} onChange={e => setFormData({...formData, endDate: e.target.value})} className="input-field" style={{ width: "100%", backgroundColor: formData.isCurrent ? "var(--bg-tertiary)" : "var(--bg-primary)" }} />
                   </div>
                 </div>
 
-                <label className="flex items-center gap-2 cursor-pointer mt-1">
-                  <input type="checkbox" checked={formData.isCurrent} onChange={e => setFormData({...formData, isCurrent: e.target.checked, endDate: ""})} className="w-5 h-5 text-brand rounded focus:ring-brand" />
-                  <span className="text-sm font-medium text-gray-700">Ainda trabalho aqui</span>
+                <label style={{ display: "flex", alignItems: "center", gap: "0.5rem", cursor: "pointer", marginTop: "0.25rem" }}>
+                  <input type="checkbox" checked={formData.isCurrent} onChange={e => setFormData({...formData, isCurrent: e.target.checked, endDate: ""})} style={{ accentColor: "var(--brand-primary)", width: "18px", height: "18px" }} />
+                  <span style={{ fontSize: "0.875rem", fontWeight: "500", color: "var(--text-primary)" }}>Ainda trabalho aqui</span>
                 </label>
 
-                <div>
-                  <label className="block text-sm text-gray-700 mb-1">Descrição das atividades</label>
-                  <textarea required value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-brand" rows={6} />
+                <div className="input-group">
+                  <label className="input-label">Descrição das atividades</label>
+                  <textarea required value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} className="input-field" style={{ width: "100%", minHeight: "120px", resize: "vertical" }} />
                 </div>
 
-                <div className="flex justify-end gap-3 mt-4 pt-4 border-t">
-                  <button type="button" onClick={closeModal} className="px-6 py-2 border rounded-lg text-brand font-bold hover:bg-gray-50 transition-colors">
+                <div style={{ display: "flex", justifyContent: "flex-end", gap: "0.75rem", marginTop: "1rem", paddingTop: "1rem", borderTop: "1px solid var(--border-color)" }}>
+                  <button type="button" onClick={closeModal} className="btn btn-secondary">
                     Cancelar
                   </button>
-                  <button type="submit" disabled={loading} className="px-6 py-2 bg-brand text-white rounded-lg font-bold hover:opacity-90 transition-opacity">
+                  <button type="submit" disabled={loading} className="btn btn-primary">
                     {loading ? "Salvando..." : "Salvar experiência"}
                   </button>
                 </div>
