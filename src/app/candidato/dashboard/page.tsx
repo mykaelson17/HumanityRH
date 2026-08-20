@@ -11,6 +11,7 @@ export default async function CandidatoDashboard() {
 
   const profile = await prisma.candidateProfile.findUnique({
     where: { userId },
+    include: { experiences: true }
   });
 
   const applications = await prisma.application.findMany({
@@ -108,6 +109,38 @@ export default async function CandidatoDashboard() {
             <p className="mb-4" style={{ color: "var(--text-secondary)" }}>Você ainda não se candidatou a nenhuma vaga.</p>
             <Link href="/vagas">
               <Button variant="primary">Encontrar Vagas</Button>
+            </Link>
+          </div>
+        )}
+      <Card className="mt-8">
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-xl font-bold">Minhas Experiências</h2>
+          <Link href="/candidato/experiencias">
+            <Button variant="outline">Editar Experiências</Button>
+          </Link>
+        </div>
+
+        {profile?.experiences && profile.experiences.length > 0 ? (
+          <div className="flex flex-col gap-4">
+            {profile.experiences.map((exp: any) => (
+              <div key={exp.id} className="p-4 border rounded" style={{ borderColor: "var(--border-color)", backgroundColor: "var(--bg-secondary)" }}>
+                <div className="flex justify-between items-start mb-2">
+                  <div>
+                    <h3 className="font-bold text-lg">{exp.role}</h3>
+                    <p className="text-sm font-medium" style={{ color: "var(--text-secondary)" }}>{exp.company}</p>
+                  </div>
+                </div>
+                <div className="text-sm whitespace-pre-wrap mt-2" style={{ color: "var(--text-primary)" }}>
+                  {exp.description}
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-8">
+            <p className="mb-4" style={{ color: "var(--text-secondary)" }}>Nenhuma experiência cadastrada.</p>
+            <Link href="/candidato/experiencias">
+              <Button variant="primary">Adicionar Experiência</Button>
             </Link>
           </div>
         )}
