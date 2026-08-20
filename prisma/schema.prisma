@@ -1,0 +1,215 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  password      String?
+  role          String    @default("CANDIDATE") // ADMIN, RH, RECRUITER, CANDIDATE
+  phone         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  candidateProfile CandidateProfile?
+  notesCreated     Note[]            @relation("AuthorNotes")
+  notifications    Notification[]
+  accounts         Account[]
+  sessions         Session[]
+}
+
+model Account {
+  id                 String  @id @default(cuid())
+  userId             String
+  type               String
+  provider           String
+  providerAccountId  String
+  refresh_token      String?  
+  access_token       String?  
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String?  
+  session_state      String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model CandidateProfile {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  cpf       String?  @unique
+  age       Int?
+  birthDate DateTime?
+  gender    String?
+  city      String?
+  state     String?
+  address   String?
+  zipCode   String?
+  resumeUrl String? // Path to PDF
+  photoUrl  String?
+
+  experiences   CandidateExperience[]
+  educations    CandidateEducation[]
+  skills        CandidateSkill[]
+  applications  Application[]
+  notes         Note[]
+  inTalentPool  Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model CandidateExperience {
+  id                 String           @id @default(cuid())
+  candidateProfileId String
+  candidateProfile   CandidateProfile @relation(fields: [candidateProfileId], references: [id], onDelete: Cascade)
+  company            String
+  role               String
+  startDate          DateTime
+  endDate            DateTime?
+  description        String?
+}
+
+model CandidateEducation {
+  id                 String           @id @default(cuid())
+  candidateProfileId String
+  candidateProfile   CandidateProfile @relation(fields: [candidateProfileId], references: [id], onDelete: Cascade)
+  level              String // Escolaridade
+  institution        String
+  course             String
+  status             String // Situação
+  endYear            Int?
+}
+
+model Skill {
+  id        String           @id @default(cuid())
+  name      String           @unique
+  candidates CandidateSkill[]
+}
+
+model CandidateSkill {
+  id                 String           @id @default(cuid())
+  candidateProfileId String
+  skillId            String
+  candidateProfile   CandidateProfile @relation(fields: [candidateProfileId], references: [id], onDelete: Cascade)
+  skill              Skill            @relation(fields: [skillId], references: [id], onDelete: Cascade)
+
+  @@unique([candidateProfileId, skillId])
+}
+
+model Job {
+  id                String   @id @default(cuid())
+  title             String
+  department        String
+  description       String
+  responsibilities  String
+  requirements      String
+  differentials     String?
+  benefits          String?
+  city              String
+  state             String
+  modality          String // Presencial, Híbrido, Remoto
+  contractType      String // CLT, PJ, Estágio
+  minSalary         Float?
+  maxSalary         Float?
+  workHours         String?
+  vacancies         Int      @default(1)
+  status            String   @default("PUBLISHED") // DRAFT, PUBLISHED, PAUSED, CLOSED
+  publishedAt       DateTime?
+  closedAt          DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  applications Application[]
+}
+
+model Application {
+  id                 String           @id @default(cuid())
+  jobId              String
+  job                Job              @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  candidateProfileId String
+  candidateProfile   CandidateProfile @relation(fields: [candidateProfileId], references: [id], onDelete: Cascade)
+  status             String           @default("NEW") // NEW, SCREENING, INTERVIEW, EVALUATION, APPROVED, HIRED, REJECTED
+  
+  history ApplicationHistory[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([jobId, candidateProfileId])
+}
+
+model ApplicationHistory {
+  id            String      @id @default(cuid())
+  applicationId String
+  application   Application @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  status        String
+  notes         String?
+  createdAt     DateTime    @default(now())
+}
+
+model Note {
+  id                 String           @id @default(cuid())
+  candidateProfileId String
+  candidateProfile   CandidateProfile @relation(fields: [candidateProfileId], references: [id], onDelete: Cascade)
+  authorId           String
+  author             User             @relation("AuthorNotes", fields: [authorId], references: [id], onDelete: Cascade)
+  content            String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String
+  message   String
+  read      Boolean  @default(false)
+  link      String?
+
+  createdAt DateTime @default(now())
+}
+
+model SiteSetting {
+  id    String @id @default(cuid())
+  key   String @unique
+  value String
+}
+
+model HeroImage {
+  id        String   @id @default(cuid())
+  url       String
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+}
