@@ -112,6 +112,8 @@ export default async function CandidatoDashboard() {
             </Link>
           </div>
         )}
+      </Card>
+
       <Card className="mt-8">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-xl font-bold">Minhas Experiências</h2>
