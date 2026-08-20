@@ -1,8 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
-import { writeFile } from "fs/promises";
-import path from "path";
+import { supabase } from "@/lib/supabase";
 
 export async function POST(request: Request) {
   try {
@@ -48,14 +47,25 @@ export async function POST(request: Request) {
     let resumeUrl = null;
 
     if (file && file.size > 0) {
-      const bytes = await file.arrayBuffer();
-      const buffer = Buffer.from(bytes);
-      
       const filename = `${Date.now()}-${file.name.replace(/\s+/g, '_')}`;
-      const filepath = path.join(process.cwd(), "public", "uploads", "resumes", filename);
       
-      await writeFile(filepath, buffer);
-      resumeUrl = `/uploads/resumes/${filename}`;
+      const { data, error } = await supabase.storage
+        .from('resumes')
+        .upload(filename, file, {
+          cacheControl: '3600',
+          upsert: false
+        });
+
+      if (error) {
+        console.error("Erro no upload do Supabase:", error);
+        return NextResponse.json({ error: "Erro ao fazer upload do currículo" }, { status: 500 });
+      }
+
+      const { data: publicUrlData } = supabase.storage
+        .from('resumes')
+        .getPublicUrl(filename);
+        
+      resumeUrl = publicUrlData.publicUrl;
     }
 
     const passwordHash = await bcrypt.hash(password, 10);
