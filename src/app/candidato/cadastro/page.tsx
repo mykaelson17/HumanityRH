@@ -147,7 +147,7 @@ export default function CadastroCandidato() {
     <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", backgroundColor: "var(--bg-tertiary)" }}>
       <Header />
       <div className="container" style={{ flex: 1, padding: "1rem 0", display: "flex", justifyContent: "center" }}>
-        <Card className="w-full max-w-3xl" style={{ maxWidth: '800px', width: '100%', padding: '1.5rem 2rem' }}>
+        <Card className="w-full" style={{ maxWidth: '1000px', width: '95%', padding: '2rem 3rem' }}>
           <div className="mb-4 text-center">
             <h1 className="text-xl font-bold mb-1">Cadastro Rápido de Currículo</h1>
             <p className="text-sm" style={{ color: "var(--text-secondary)" }}>
@@ -165,7 +165,7 @@ export default function CadastroCandidato() {
             {/* DADOS PESSOAIS */}
             <h3 className="font-bold text-base border-b pb-1 mt-1">Dados Pessoais</h3>
             
-            <div className="grid md:grid-cols-3 gap-2 mt-1">
+            <div className="grid md:grid-cols-3 gap-4 mt-1">
               <div className="input-group m-0 md:col-span-1">
                 <label className="input-label text-xs">Nome Completo *</label>
                 <input type="text" name="name" required className="input-field w-full py-1" value={formData.name} onChange={handleChange} />
@@ -180,7 +180,7 @@ export default function CadastroCandidato() {
               </div>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-2 mt-1">
+            <div className="grid md:grid-cols-2 gap-4 mt-1">
               <div className="input-group m-0">
                 <label className="input-label text-xs">E-mail *</label>
                 <input type="email" name="email" required className="input-field w-full py-1" value={formData.email} onChange={handleChange} />
@@ -194,7 +194,7 @@ export default function CadastroCandidato() {
             {/* ENDEREÇO */}
             <h3 className="font-bold text-base border-b pb-1 mt-2">Endereço</h3>
             
-            <div className="grid md:grid-cols-4 gap-2 mt-1">
+            <div className="grid md:grid-cols-4 gap-4 mt-1">
               <div className="input-group m-0 md:col-span-1">
                 <label className="input-label text-xs">CEP *</label>
                 <input type="text" name="cep" required placeholder="00000-000" maxLength={9} className="input-field w-full py-1" value={formData.cep} onChange={handleChange} onBlur={handleCepBlur} />
@@ -205,7 +205,7 @@ export default function CadastroCandidato() {
               </div>
             </div>
 
-            <div className="grid md:grid-cols-4 gap-2 mt-1">
+            <div className="grid md:grid-cols-4 gap-4 mt-1">
               <div className="input-group m-0 md:col-span-2">
                 <label className="input-label text-xs">Bairro</label>
                 <input type="text" name="neighborhood" required className="input-field w-full py-1" value={formData.neighborhood} onChange={handleChange} />
@@ -223,10 +223,10 @@ export default function CadastroCandidato() {
             {/* CURRÍCULO E SENHA */}
             <h3 className="font-bold text-base border-b pb-1 mt-2">Currículo e Acesso</h3>
 
-            <div className="grid md:grid-cols-3 gap-2 mt-1">
-              <div className="input-group m-0 md:col-span-1">
+            <div className="grid md:grid-cols-4 gap-4 mt-1">
+              <div className="input-group m-0 md:col-span-2">
                 <label className="input-label text-xs">Anexar Currículo (PDF)</label>
-                <div className="flex gap-1 items-center">
+                <div className="flex gap-2 items-center">
                   <input type="file" name="resume" accept=".pdf" className="input-field w-full py-1 bg-white text-xs" onChange={handleFileChange} ref={fileInputRef} />
                   {resumeFile && (
                     <button type="button" onClick={removeFile} className="p-1 text-gray-400 hover:text-red-500 transition-colors flex items-center justify-center" title="Remover currículo">
@@ -245,7 +245,7 @@ export default function CadastroCandidato() {
               </div>
             </div>
 
-            <div className="flex items-center gap-2 mt-1 mb-1">
+            <div className="flex items-center gap-2 mt-2 mb-1">
               <input type="checkbox" id="lgpd" required />
               <label htmlFor="lgpd" className="text-xs">Li e concordo com a Política de Privacidade.</label>
             </div>
