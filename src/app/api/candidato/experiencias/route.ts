@@ -52,3 +52,23 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Erro ao salvar experiência" }, { status: 500 });
   }
 }
+
+export async function DELETE(request: Request) {
+  try {
+    const session = await getServerSession(authOptions);
+    const userId = (session?.user as any)?.id;
+    if (!userId) return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
+
+    const url = new URL(request.url);
+    const id = url.searchParams.get("id");
+    if (!id) return NextResponse.json({ error: "ID inválido" }, { status: 400 });
+
+    await prisma.candidateExperience.delete({
+      where: { id }
+    });
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ error: "Erro ao excluir" }, { status: 500 });
+  }
+}

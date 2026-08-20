@@ -75,6 +75,14 @@ model CandidateProfile {
   zipCode   String?
   resumeUrl String? // Path to PDF
   photoUrl  String?
+  socialName        String?
+  secondaryEmail    String?
+  linkedin          String?
+  deficiency        String?
+  sex               String?
+  race              String?
+  sexualOrientation String?
+  summary           String?
 
   experiences   CandidateExperience[]
   educations    CandidateEducation[]
@@ -95,6 +103,7 @@ model CandidateExperience {
   role               String
   startDate          DateTime
   endDate            DateTime?
+  isCurrent          Boolean @default(false)
   description        String?
 }
 

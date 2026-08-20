@@ -33,11 +33,11 @@ export default async function CandidatoDashboardLayout({
           <Link href="/candidato/dashboard" className="flex items-center gap-2 p-2 rounded hover:bg-gray-100" style={{ color: "var(--text-primary)", fontWeight: "500" }}>
             <Briefcase size={20} /> Minhas Candidaturas
           </Link>
-          <Link href="/candidato/perfil" className="flex items-center gap-2 p-2 rounded hover:bg-gray-100" style={{ color: "var(--text-secondary)" }}>
+          <Link href="/candidato/dashboard/perfil" className="flex items-center gap-2 p-2 rounded hover:bg-gray-100" style={{ color: "var(--text-secondary)" }}>
             <User size={20} /> Meu Perfil
           </Link>
-          <Link href="/candidato/curriculo" className="flex items-center gap-2 p-2 rounded hover:bg-gray-100" style={{ color: "var(--text-secondary)" }}>
-            <FileText size={20} /> Currículo (PDF)
+          <Link href="/candidato/dashboard/experiencias" className="flex items-center gap-2 p-2 rounded hover:bg-gray-100" style={{ color: "var(--text-secondary)" }}>
+            <FileText size={20} /> Experiências
           </Link>
         </nav>
 

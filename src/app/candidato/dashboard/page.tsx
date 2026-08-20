@@ -117,7 +117,7 @@ export default async function CandidatoDashboard() {
       <Card className="mt-8">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-xl font-bold">Minhas Experiências</h2>
-          <Link href="/candidato/experiencias">
+          <Link href="/candidato/dashboard/experiencias">
             <Button variant="outline">Editar Experiências</Button>
           </Link>
         </div>
@@ -141,7 +141,7 @@ export default async function CandidatoDashboard() {
         ) : (
           <div className="text-center py-8">
             <p className="mb-4" style={{ color: "var(--text-secondary)" }}>Nenhuma experiência cadastrada.</p>
-            <Link href="/candidato/experiencias">
+            <Link href="/candidato/dashboard/experiencias">
               <Button variant="primary">Adicionar Experiência</Button>
             </Link>
           </div>
