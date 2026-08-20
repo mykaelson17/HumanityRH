@@ -31,7 +31,10 @@ export default async function CandidatoDashboardLayout({
 
         <nav className="flex flex-col gap-2 flex-1">
           <Link href="/candidato/dashboard" className="flex items-center gap-2 p-2 rounded hover:bg-gray-100" style={{ color: "var(--text-primary)", fontWeight: "500" }}>
-            <Briefcase size={20} /> Minhas Candidaturas
+            <Briefcase size={20} /> Dashboard
+          </Link>
+          <Link href="/candidato/dashboard/candidaturas" className="flex items-center gap-2 p-2 rounded hover:bg-gray-100" style={{ color: "var(--text-secondary)" }}>
+            <FileText size={20} /> Minhas Candidaturas
           </Link>
           <Link href="/candidato/dashboard/perfil" className="flex items-center gap-2 p-2 rounded hover:bg-gray-100" style={{ color: "var(--text-secondary)" }}>
             <User size={20} /> Meu Perfil
