@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 import { supabase } from "@/lib/supabase";
-import pdfParse from "pdf-parse";
 
 export async function POST(request: Request) {
   try {
@@ -55,6 +54,7 @@ export async function POST(request: Request) {
       const buffer = Buffer.from(arrayBuffer);
 
       try {
+        const pdfParse = require('pdf-parse');
         const pdfData = await pdfParse(buffer);
         if (pdfData && pdfData.text) {
           extractedText = pdfData.text;
