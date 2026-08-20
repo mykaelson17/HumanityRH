@@ -75,7 +75,7 @@ export async function POST(request: Request) {
 
         if (error) {
           console.error("Erro no upload do Supabase:", error);
-          return NextResponse.json({ error: "Erro ao fazer upload do currículo no Supabase" }, { status: 500 });
+          return NextResponse.json({ error: `Erro do Supabase: ${error.message}` }, { status: 500 });
         }
 
         const { data: publicUrlData } = supabase.storage
