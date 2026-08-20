@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
@@ -12,6 +12,8 @@ export default function CadastroCandidato() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const router = useRouter();
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -81,6 +83,13 @@ export default function CadastroCandidato() {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setResumeFile(e.target.files[0]);
+    }
+  };
+
+  const removeFile = () => {
+    setResumeFile(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
     }
   };
 
@@ -216,7 +225,14 @@ export default function CadastroCandidato() {
 
             <div className="input-group m-0 mt-4">
               <label className="input-label">Anexar Currículo (PDF)</label>
-              <input type="file" name="resume" accept=".pdf" className="input-field w-full p-2 bg-white" onChange={handleFileChange} />
+              <div className="flex gap-2 items-center">
+                <input type="file" name="resume" accept=".pdf" className="input-field w-full p-2 bg-white" onChange={handleFileChange} ref={fileInputRef} />
+                {resumeFile && (
+                  <Button type="button" variant="outline" onClick={removeFile} style={{ padding: '0.5rem', whiteSpace: 'nowrap' }}>
+                    Remover
+                  </Button>
+                )}
+              </div>
             </div>
 
             <div className="grid md:grid-cols-2 gap-4 mt-4">
