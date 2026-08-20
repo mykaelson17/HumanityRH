@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/Button";
 import { Header } from "@/components/layout/Header";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
+import { Trash2 } from "lucide-react";
 
 export default function CadastroCandidato() {
   const [loading, setLoading] = useState(false);
@@ -228,9 +229,9 @@ export default function CadastroCandidato() {
               <div className="flex gap-2 items-center">
                 <input type="file" name="resume" accept=".pdf" className="input-field w-full p-2 bg-white" onChange={handleFileChange} ref={fileInputRef} />
                 {resumeFile && (
-                  <Button type="button" variant="outline" onClick={removeFile} style={{ padding: '0.5rem', whiteSpace: 'nowrap' }}>
-                    Remover
-                  </Button>
+                  <button type="button" onClick={removeFile} className="p-2 text-gray-400 hover:text-red-500 transition-colors flex items-center justify-center" title="Remover currículo">
+                    <Trash2 size={24} />
+                  </button>
                 )}
               </div>
             </div>
