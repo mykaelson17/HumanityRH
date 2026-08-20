@@ -49,9 +49,13 @@ export async function POST(request: Request) {
     if (file && file.size > 0) {
       const filename = `${Date.now()}-${file.name.replace(/\s+/g, '_')}`;
       
+      const arrayBuffer = await file.arrayBuffer();
+      const buffer = Buffer.from(arrayBuffer);
+
       const { data, error } = await supabase.storage
         .from('resumes')
-        .upload(filename, file, {
+        .upload(filename, buffer, {
+          contentType: file.type || 'application/pdf',
           cacheControl: '3600',
           upsert: false
         });
