@@ -223,8 +223,8 @@ export default function CadastroCandidato() {
             {/* CURRÍCULO E SENHA */}
             <h3 className="font-bold text-base border-b pb-1 mt-2">Currículo e Acesso</h3>
 
-            <div className="grid md:grid-cols-4 gap-4 mt-1">
-              <div className="input-group m-0 md:col-span-2">
+            <div className="mt-2">
+              <div className="input-group m-0 w-full mb-3">
                 <label className="input-label text-xs">Anexar Currículo (PDF)</label>
                 <div className="flex gap-2 items-center">
                   <input type="file" name="resume" accept=".pdf" className="input-field w-full py-1 bg-white text-xs" onChange={handleFileChange} ref={fileInputRef} />
@@ -235,13 +235,16 @@ export default function CadastroCandidato() {
                   )}
                 </div>
               </div>
-              <div className="input-group m-0 md:col-span-1">
-                <label className="input-label text-xs">Senha *</label>
-                <input type="password" name="password" required minLength={6} className="input-field w-full py-1" value={formData.password} onChange={handleChange} />
-              </div>
-              <div className="input-group m-0 md:col-span-1">
-                <label className="input-label text-xs">Confirmar Senha *</label>
-                <input type="password" name="confirmPassword" required minLength={6} className="input-field w-full py-1" value={formData.confirmPassword} onChange={handleChange} />
+              
+              <div className="grid md:grid-cols-2 gap-4">
+                <div className="input-group m-0">
+                  <label className="input-label text-xs">Senha *</label>
+                  <input type="password" name="password" required minLength={6} className="input-field w-full py-1" value={formData.password} onChange={handleChange} />
+                </div>
+                <div className="input-group m-0">
+                  <label className="input-label text-xs">Confirmar Senha *</label>
+                  <input type="password" name="confirmPassword" required minLength={6} className="input-field w-full py-1" value={formData.confirmPassword} onChange={handleChange} />
+                </div>
               </div>
             </div>
 

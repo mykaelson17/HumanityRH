@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 import { supabase } from "@/lib/supabase";
+import pdfParse from "pdf-parse";
 
 export async function POST(request: Request) {
   try {
@@ -45,6 +46,7 @@ export async function POST(request: Request) {
     }
 
     let resumeUrl = null;
+    let extractedText = null;
 
     if (file && file.size > 0) {
       const filename = `${Date.now()}-${file.name.replace(/\s+/g, '_')}`;
@@ -52,24 +54,52 @@ export async function POST(request: Request) {
       const arrayBuffer = await file.arrayBuffer();
       const buffer = Buffer.from(arrayBuffer);
 
-      const { data, error } = await supabase.storage
-        .from('resumes')
-        .upload(filename, buffer, {
-          contentType: file.type || 'application/pdf',
-          cacheControl: '3600',
-          upsert: false
-        });
-
-      if (error) {
-        console.error("Erro no upload do Supabase:", error);
-        return NextResponse.json({ error: "Erro ao fazer upload do currículo" }, { status: 500 });
+      try {
+        const pdfData = await pdfParse(buffer);
+        if (pdfData && pdfData.text) {
+          extractedText = pdfData.text;
+        }
+      } catch (err) {
+        console.error("Erro ao extrair texto do PDF:", err);
       }
 
-      const { data: publicUrlData } = supabase.storage
-        .from('resumes')
-        .getPublicUrl(filename);
+      if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+        // Use Supabase if configured
+        const { data, error } = await supabase.storage
+          .from('resumes')
+          .upload(filename, buffer, {
+            contentType: file.type || 'application/pdf',
+            cacheControl: '3600',
+            upsert: false
+          });
+
+        if (error) {
+          console.error("Erro no upload do Supabase:", error);
+          return NextResponse.json({ error: "Erro ao fazer upload do currículo no Supabase" }, { status: 500 });
+        }
+
+        const { data: publicUrlData } = supabase.storage
+          .from('resumes')
+          .getPublicUrl(filename);
+          
+        resumeUrl = publicUrlData.publicUrl;
+      } else {
+        // Fallback para armazenamento local
+        const { writeFile, mkdir } = await import('fs/promises');
+        const path = await import('path');
         
-      resumeUrl = publicUrlData.publicUrl;
+        const uploadDir = path.join(process.cwd(), 'public', 'uploads');
+        const filePath = path.join(uploadDir, filename);
+        
+        try {
+          await mkdir(uploadDir, { recursive: true });
+          await writeFile(filePath, buffer);
+          resumeUrl = `/uploads/${filename}`;
+        } catch (error) {
+          console.error("Erro no upload local:", error);
+          return NextResponse.json({ error: "Erro ao fazer upload do currículo localmente" }, { status: 500 });
+        }
+      }
     }
 
     const passwordHash = await bcrypt.hash(password, 10);
@@ -94,6 +124,16 @@ export async function POST(request: Request) {
             city,
             state,
             resumeUrl,
+            experiences: extractedText ? {
+              create: [
+                {
+                  company: "Extração Automática do Currículo",
+                  role: "Resumo Profissional (Gerado Automaticamente)",
+                  startDate: new Date(),
+                  description: extractedText.substring(0, 4000)
+                }
+              ]
+            } : undefined
           }
         }
       },
