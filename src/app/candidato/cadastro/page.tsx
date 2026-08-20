@@ -146,118 +146,116 @@ export default function CadastroCandidato() {
   return (
     <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", backgroundColor: "var(--bg-tertiary)" }}>
       <Header />
-      <div className="container" style={{ flex: 1, padding: "3rem 0", display: "flex", justifyContent: "center" }}>
-        <Card className="w-full max-w-2xl" style={{ maxWidth: '700px', width: '100%' }}>
-          <div className="mb-8 text-center">
-            <h1 className="text-2xl font-bold mb-2">Cadastro Rápido de Currículo</h1>
-            <p style={{ color: "var(--text-secondary)" }}>
+      <div className="container" style={{ flex: 1, padding: "1rem 0", display: "flex", justifyContent: "center" }}>
+        <Card className="w-full max-w-3xl" style={{ maxWidth: '800px', width: '100%', padding: '1.5rem 2rem' }}>
+          <div className="mb-4 text-center">
+            <h1 className="text-xl font-bold mb-1">Cadastro Rápido de Currículo</h1>
+            <p className="text-sm" style={{ color: "var(--text-secondary)" }}>
               Preencha seus dados e anexe seu currículo para se candidatar às vagas.
             </p>
           </div>
 
           {error && (
-            <div className="badge badge-danger mb-4" style={{ display: 'block', textAlign: 'center', padding: '0.5rem' }}>
+            <div className="badge badge-danger mb-2" style={{ display: 'block', textAlign: 'center', padding: '0.4rem' }}>
               {error}
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-2">
             {/* DADOS PESSOAIS */}
-            <h3 className="font-bold text-lg border-b pb-2 mt-2">Dados Pessoais</h3>
+            <h3 className="font-bold text-base border-b pb-1 mt-1">Dados Pessoais</h3>
             
-            <div className="input-group m-0">
-              <label className="input-label">Nome Completo *</label>
-              <input type="text" name="name" required className="input-field w-full" value={formData.name} onChange={handleChange} />
-            </div>
-            
-            <div className="grid md:grid-cols-2 gap-4 mt-4">
-              <div className="input-group m-0">
-                <label className="input-label">CPF *</label>
-                <input type="text" name="cpf" required placeholder="000.000.000-00" maxLength={14} className="input-field w-full" value={formData.cpf} onChange={handleChange} />
+            <div className="grid md:grid-cols-3 gap-2 mt-1">
+              <div className="input-group m-0 md:col-span-1">
+                <label className="input-label text-xs">Nome Completo *</label>
+                <input type="text" name="name" required className="input-field w-full py-1" value={formData.name} onChange={handleChange} />
               </div>
-              <div className="input-group m-0">
-                <label className="input-label">Data de Nascimento *</label>
-                <input type="date" name="birthDate" required className="input-field w-full" value={formData.birthDate} onChange={handleChange} />
+              <div className="input-group m-0 md:col-span-1">
+                <label className="input-label text-xs">CPF *</label>
+                <input type="text" name="cpf" required placeholder="000.000.000-00" maxLength={14} className="input-field w-full py-1" value={formData.cpf} onChange={handleChange} />
+              </div>
+              <div className="input-group m-0 md:col-span-1">
+                <label className="input-label text-xs">Data Nasc. *</label>
+                <input type="date" name="birthDate" required className="input-field w-full py-1" value={formData.birthDate} onChange={handleChange} />
               </div>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-4 mt-4">
+            <div className="grid md:grid-cols-2 gap-2 mt-1">
               <div className="input-group m-0">
-                <label className="input-label">E-mail *</label>
-                <input type="email" name="email" required className="input-field w-full" value={formData.email} onChange={handleChange} />
+                <label className="input-label text-xs">E-mail *</label>
+                <input type="email" name="email" required className="input-field w-full py-1" value={formData.email} onChange={handleChange} />
               </div>
               <div className="input-group m-0">
-                <label className="input-label">Telefone / WhatsApp *</label>
-                <input type="tel" name="phone" required className="input-field w-full" value={formData.phone} onChange={handleChange} />
+                <label className="input-label text-xs">Telefone / WhatsApp *</label>
+                <input type="tel" name="phone" required className="input-field w-full py-1" value={formData.phone} onChange={handleChange} />
               </div>
             </div>
 
             {/* ENDEREÇO */}
-            <h3 className="font-bold text-lg border-b pb-2 mt-6">Endereço</h3>
+            <h3 className="font-bold text-base border-b pb-1 mt-2">Endereço</h3>
             
-            <div className="grid md:grid-cols-3 gap-4 mt-4">
+            <div className="grid md:grid-cols-4 gap-2 mt-1">
               <div className="input-group m-0 md:col-span-1">
-                <label className="input-label">CEP *</label>
-                <input type="text" name="cep" required placeholder="00000-000" maxLength={9} className="input-field w-full" value={formData.cep} onChange={handleChange} onBlur={handleCepBlur} />
+                <label className="input-label text-xs">CEP *</label>
+                <input type="text" name="cep" required placeholder="00000-000" maxLength={9} className="input-field w-full py-1" value={formData.cep} onChange={handleChange} onBlur={handleCepBlur} />
               </div>
-              <div className="input-group m-0 md:col-span-2">
-                <label className="input-label">Rua / Logradouro</label>
-                <input type="text" name="address" required className="input-field w-full" value={formData.address} onChange={handleChange} />
+              <div className="input-group m-0 md:col-span-3">
+                <label className="input-label text-xs">Rua / Logradouro</label>
+                <input type="text" name="address" required className="input-field w-full py-1" value={formData.address} onChange={handleChange} />
               </div>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-4 mt-4">
-              <div className="input-group m-0 md:col-span-1">
-                <label className="input-label">Bairro</label>
-                <input type="text" name="neighborhood" required className="input-field w-full" value={formData.neighborhood} onChange={handleChange} />
+            <div className="grid md:grid-cols-4 gap-2 mt-1">
+              <div className="input-group m-0 md:col-span-2">
+                <label className="input-label text-xs">Bairro</label>
+                <input type="text" name="neighborhood" required className="input-field w-full py-1" value={formData.neighborhood} onChange={handleChange} />
               </div>
               <div className="input-group m-0 md:col-span-1">
-                <label className="input-label">Cidade</label>
-                <input type="text" name="city" required className="input-field w-full" value={formData.city} onChange={handleChange} />
+                <label className="input-label text-xs">Cidade</label>
+                <input type="text" name="city" required className="input-field w-full py-1" value={formData.city} onChange={handleChange} />
               </div>
               <div className="input-group m-0 md:col-span-1">
-                <label className="input-label">Estado (UF)</label>
-                <input type="text" name="state" required maxLength={2} className="input-field w-full" value={formData.state} onChange={handleChange} />
+                <label className="input-label text-xs">UF</label>
+                <input type="text" name="state" required maxLength={2} className="input-field w-full py-1" value={formData.state} onChange={handleChange} />
               </div>
             </div>
 
             {/* CURRÍCULO E SENHA */}
-            <h3 className="font-bold text-lg border-b pb-2 mt-6">Currículo e Acesso</h3>
+            <h3 className="font-bold text-base border-b pb-1 mt-2">Currículo e Acesso</h3>
 
-            <div className="input-group m-0 mt-4">
-              <label className="input-label">Anexar Currículo (PDF)</label>
-              <div className="flex gap-2 items-center">
-                <input type="file" name="resume" accept=".pdf" className="input-field w-full p-2 bg-white" onChange={handleFileChange} ref={fileInputRef} />
-                {resumeFile && (
-                  <button type="button" onClick={removeFile} className="p-2 text-gray-400 hover:text-red-500 transition-colors flex items-center justify-center" title="Remover currículo">
-                    <Trash2 size={24} />
-                  </button>
-                )}
+            <div className="grid md:grid-cols-3 gap-2 mt-1">
+              <div className="input-group m-0 md:col-span-1">
+                <label className="input-label text-xs">Anexar Currículo (PDF)</label>
+                <div className="flex gap-1 items-center">
+                  <input type="file" name="resume" accept=".pdf" className="input-field w-full py-1 bg-white text-xs" onChange={handleFileChange} ref={fileInputRef} />
+                  {resumeFile && (
+                    <button type="button" onClick={removeFile} className="p-1 text-gray-400 hover:text-red-500 transition-colors flex items-center justify-center" title="Remover currículo">
+                      <Trash2 size={18} />
+                    </button>
+                  )}
+                </div>
+              </div>
+              <div className="input-group m-0 md:col-span-1">
+                <label className="input-label text-xs">Senha *</label>
+                <input type="password" name="password" required minLength={6} className="input-field w-full py-1" value={formData.password} onChange={handleChange} />
+              </div>
+              <div className="input-group m-0 md:col-span-1">
+                <label className="input-label text-xs">Confirmar Senha *</label>
+                <input type="password" name="confirmPassword" required minLength={6} className="input-field w-full py-1" value={formData.confirmPassword} onChange={handleChange} />
               </div>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-4 mt-4">
-              <div className="input-group m-0">
-                <label className="input-label">Senha *</label>
-                <input type="password" name="password" required minLength={6} className="input-field w-full" value={formData.password} onChange={handleChange} />
-              </div>
-              <div className="input-group m-0">
-                <label className="input-label">Confirmar Senha *</label>
-                <input type="password" name="confirmPassword" required minLength={6} className="input-field w-full" value={formData.confirmPassword} onChange={handleChange} />
-              </div>
-            </div>
-
-            <div className="flex items-center gap-2 mt-4 mb-4">
+            <div className="flex items-center gap-2 mt-1 mb-1">
               <input type="checkbox" id="lgpd" required />
-              <label htmlFor="lgpd" className="text-sm">Li e concordo com a Política de Privacidade e armazenamento dos meus dados.</label>
+              <label htmlFor="lgpd" className="text-xs">Li e concordo com a Política de Privacidade.</label>
             </div>
 
-            <Button type="submit" disabled={loading} fullWidth>
-              {loading ? "Criando conta e enviando currículo..." : "Finalizar Cadastro"}
+            <Button type="submit" disabled={loading} fullWidth style={{ padding: '0.6rem' }}>
+              {loading ? "Criando conta..." : "Finalizar Cadastro"}
             </Button>
           </form>
 
-          <div className="mt-8 pt-4 text-center text-sm" style={{ borderTop: "1px solid var(--border-color)", color: "var(--text-secondary)" }}>
+          <div className="mt-4 pt-2 text-center text-xs" style={{ borderTop: "1px solid var(--border-color)", color: "var(--text-secondary)" }}>
             Já tem conta? <Link href="/candidato/login" className="text-brand font-medium">Faça login</Link>
           </div>
         </Card>
