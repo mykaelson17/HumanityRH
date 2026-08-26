@@ -5,8 +5,8 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Humanity - Portal de Recrutamento",
-  description: "Encontre oportunidades e faça parte do nosso time. Cadastre seu currículo e acompanhe processos seletivos.",
+  title: "MaisEmprego.aux - Portal de Recrutamento",
+  description: "Encontre oportunidades e faça parte do nosso time. Cadastre seu currículo e acompanhe processos seletivos no MaisEmprego.aux.",
 };
 
 import { Providers } from "@/components/Providers";

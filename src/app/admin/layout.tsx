@@ -22,7 +22,7 @@ export default async function AdminLayout({
       <aside style={{ width: "260px", backgroundColor: "var(--bg-secondary)", borderRight: "1px solid var(--border-color)", padding: "1.5rem", display: "flex", flexDirection: "column" }}>
         <div className="mb-8">
           <Link href="/admin/dashboard" className="text-2xl font-bold text-brand">
-            Humanity <span className="text-sm font-normal text-secondary">Admin</span>
+            MaisEmprego<span style={{ color: "var(--brand-accent)" }}>.aux</span> <span className="text-sm font-normal" style={{ color: "var(--text-secondary)" }}>Admin</span>
           </Link>
         </div>
 

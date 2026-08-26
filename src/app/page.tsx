@@ -35,7 +35,7 @@ export default async function Home() {
     },
     { 
       type: settings.info2Type || "text", 
-      title: settings.info2Title || "Sobre a Humanity", 
+      title: settings.info2Title || "Sobre a MaisEmprego.aux", 
       content: settings.info2Content || "Conectamos talentos a grandes empresas.", 
       link: settings.info2Link || "/trabalhe-conosco", 
       image: settings.info2Image || "" 
@@ -136,7 +136,7 @@ export default async function Home() {
       </main>
       
       <footer style={{ padding: "2rem 0", borderTop: "1px solid var(--border-color)", textAlign: "center", color: "var(--text-tertiary)", backgroundColor: "white" }}>
-        <p>&copy; {new Date().getFullYear()} Humanity. Todos os direitos reservados.</p>
+        <p>&copy; {new Date().getFullYear()} MaisEmprego.aux. Todos os direitos reservados.</p>
       </footer>
     </div>
   );
